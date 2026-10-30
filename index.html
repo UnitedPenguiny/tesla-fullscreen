@@ -39,27 +39,41 @@
     .site-import textarea:focus-visible{outline:3px solid #ffd3d8;outline-offset:3px}.import-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:13px}
     .info{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:23px}.info article{background:#161c27;border-radius:15px;border:1px solid #353e4c;padding:21px}.info h3{margin:0 0 10px;font-size:17px}.info p{color:var(--muted);margin:0;line-height:1.65;font-size:14px}
     footer{color:#8c98aa;font-size:12px;text-align:center;line-height:1.7;margin:26px auto;max-width:780px}
+    .mode-backdrop{position:fixed;inset:0;z-index:1000;background:rgba(3,7,15,.82);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+    .mode-backdrop[hidden]{display:none}
+    .mode-dialog{position:relative;width:min(550px,100%);max-height:calc(100vh - 40px);overflow-y:auto;border:1px solid #647083;border-radius:23px;padding:clamp(21px,4vw,32px);background:linear-gradient(145deg,#262d3c,#131924);box-shadow:0 25px 90px #000b}
+    .mode-dialog h2{font-size:clamp(23px,3vw,31px);line-height:1.2;margin:8px 35px 8px 0}
+    .mode-eyebrow{font-size:12px;font-weight:850;letter-spacing:.15em;color:#ffb0bd}
+    .mode-destination{font-size:14px;color:var(--muted);overflow-wrap:anywhere;margin:0 0 21px}
+    .mode-choices{display:grid;gap:12px}
+    .mode-choice{text-align:left;display:flex;flex-direction:column;gap:6px;width:100%;min-height:87px;padding:17px 20px;border-radius:14px;border:1px solid #536176;color:var(--text);background:#293444}
+    .mode-choice strong{font-size:19px}.mode-choice span{font-size:13px;color:#cbd4e0;line-height:1.4}
+    .mode-choice.normal{background:linear-gradient(105deg,#e74358,#b91f3a);border-color:#ff788a}.mode-choice.normal span{color:#ffe7eb}
+    .mode-choice:hover{filter:brightness(1.12)}
+    .mode-warning{font-size:13px;line-height:1.6;color:#b8c2d2;margin:17px 0 0}
+    .mode-close{position:absolute;top:15px;right:16px;width:41px;height:41px;border:1px solid #596375;border-radius:11px;background:#293240;color:#fff;font-size:25px}
+    body.mode-open{overflow:hidden}
     @media(max-width:680px){.wrap{width:calc(100% - 28px)}header{margin-bottom:30px}.tag{display:none}.panel{border-radius:18px}form{flex-direction:column}.launch{height:60px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.info{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){*{transition:none!important}}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header><div class="brand"><span class="mark" aria-hidden="true">⛶</span> TESLA FULLSCREEN</div><span class="tag">THEATER-STYLE WEB LAUNCHER</span></header>
-    <div class="hero"><div class="eyebrow">Made for your Tesla touchscreen</div><h1>Your browser. <span>Full screen.</span></h1><p class="subtitle">Open your published Sites, browser games, and other websites from one touch-friendly launcher.</p></div>
+    <header><div class="brand"><span class="mark" aria-hidden="true">⛶</span> TESLA LAUNCHER</div><span class="tag">NORMAL OR FULLSCREEN</span></header>
+    <div class="hero"><div class="eyebrow">Made for your Tesla touchscreen</div><h1>Your browser. <span>Your choice.</span></h1><p class="subtitle">Tap any game or Site, then choose normal browser or Theater fullscreen. Normal mode is recommended for keeping your existing game saves and cache.</p></div>
     <main class="panel">
-      <div class="label"><span class="step">01</span> Enter fullscreen mode</div>
+      <div class="label"><span class="step">01</span> Optional: open this launcher fullscreen</div>
       <button class="primary" id="fullscreen" type="button">⛶ &nbsp; Enter Tesla Fullscreen</button>
-      <p class="hint">This uses YouTube's redirect workaround. If you see <strong>“You are leaving YouTube,”</strong> tap <strong>“Go to site.”</strong> Tesla software may block the trick on some versions.</p>
+      <p class="hint">You can skip this and open games in the normal browser. Theater uses YouTube's redirect workaround; if asked, tap <strong>“Go to site.”</strong> Tesla software may block the trick on some versions.</p>
       <div class="sep"></div>
       <div class="label"><span class="step">02</span> Open any website</div>
-      <form id="addressForm"><input id="address" class="address" type="text" required inputmode="url" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://your-website.com" aria-label="Website URL"><button class="launch" type="submit">Open Fullscreen ↗</button></form>
+      <form id="addressForm"><input id="address" class="address" type="text" required inputmode="url" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://your-website.com" aria-label="Website URL"><button class="launch" type="submit">Choose Mode ↗</button></form>
       <div class="extras"><span class="small">No proxy or automatic Sites account access. Links open directly on your Tesla.</span><button type="button" id="save" class="secondary">＋ Add Site</button></div>
       <div id="message" class="message" role="alert"></div>
     </main>
 
     <section class="links" aria-label="Your published websites">
-      <div class="sectionhead"><h2>My Sites <span class="small">v4</span></h2><div class="site-head-actions"><span id="siteCount" class="small">Saved locally on this device</span><button id="refreshLatest" class="secondary" type="button">↻ Refresh latest</button></div></div>
+      <div class="sectionhead"><h2>My Sites <span class="small">v5</span></h2><div class="site-head-actions"><span id="siteCount" class="small">Saved locally on this device</span><button id="refreshLatest" class="secondary" type="button">↻ Refresh latest</button></div></div>
       <div class="tiles" id="siteTiles">
         <a class="tile" href="https://kingdom-rush-genesis-pocket.wittyfir16.chatgpt.site/" data-featured-url="https://kingdom-rush-genesis-pocket.wittyfir16.chatgpt.site/">
           <span class="ic featured-icon" aria-hidden="true"><span class="icon-backup">🛡️</span><img src="https://www.kingdomrushgenesis.com/img/presskit/Kingdom_Rush_6_Genesis_app_icon_1024.png?v=1" data-icon-fallback="https://files.ironhidegames.com/ironhidegames-www-upfiles/original/Games/0x600/e546ef0a-46e2-44a9-a23f-d2d8640e109e.png" alt="" loading="eager"></span><strong>Kingdom Rush Genesis</strong><small>kingdom-rush-genesis-pocket</small>
@@ -80,8 +94,27 @@
         </div>
       </details>
     </section>
-    <div class="info"><article><h3>How to use this in your Tesla</h3><p>Park the car. Open this site in Tesla's browser, bookmark it, and tap <b>Enter Tesla Fullscreen</b>. Tap <b>Go to site</b> on YouTube's redirect page, if shown. Then select a destination.</p></article><article><h3>Fullscreen unavailable?</h3><p>Some Tesla firmware versions block the workaround. In that case, this launcher still works as a normal browser homepage.</p><p style="margin-top:12px"><button type="button" class="secondary" id="direct">Open website directly ↗</button></p></article></div>
+    <div class="info"><article><h3>How to use this in your Tesla</h3><p>Tap a game or Site, then choose <b>Normal browser</b> (recommended) or <b>Theater fullscreen</b>. Normal mode opens the original website directly and should reuse your normal browser's saves and cached files.</p></article><article><h3>Fullscreen unavailable?</h3><p>Some Tesla firmware versions block the YouTube redirect workaround. Normal mode remains available without the workaround.</p><p style="margin-top:12px"><button type="button" class="secondary" id="direct">Open website directly ↗</button></p></article></div>
     <footer>Independent third-party launcher. Not affiliated with Tesla or YouTube. Entertainment and video on the front display are for parked use. No server-side tracking; custom shortcuts are saved locally in this browser.</footer>
+  </div>
+  <div id="modeChooser" class="mode-backdrop" hidden>
+    <div class="mode-dialog" role="dialog" aria-modal="true" aria-labelledby="modeTitle" aria-describedby="modeWarning">
+      <button id="modeClose" class="mode-close" type="button" aria-label="Close launch options">×</button>
+      <div class="mode-eyebrow">CHOOSE HOW TO LAUNCH</div>
+      <h2 id="modeTitle">Open this Site</h2>
+      <p id="modeDestination" class="mode-destination"></p>
+      <div class="mode-choices">
+        <button id="modeNormal" class="mode-choice normal" type="button">
+          <strong>↗ Normal browser</strong>
+          <span>Recommended · keep using your regular browser's saves and cached game files</span>
+        </button>
+        <button id="modeTheater" class="mode-choice" type="button">
+          <strong>⛶ Theater fullscreen</strong>
+          <span>Open with the Tesla fullscreen redirect workaround</span>
+        </button>
+      </div>
+      <p id="modeWarning" class="mode-warning">Tesla may keep game downloads and saves separate between normal and Theater modes. Fullscreen also depends on your vehicle's software.</p>
+    </div>
   </div>
   <script>
     (function(){
@@ -94,6 +127,12 @@
       var tiles=document.getElementById('extraSiteTiles');
       var count=document.getElementById('siteCount');
       var bulk=document.getElementById('bulkSites');
+      var chooser=document.getElementById('modeChooser');
+      var chooserNormal=document.getElementById('modeNormal');
+      var chooserTitle=document.getElementById('modeTitle');
+      var chooserDestination=document.getElementById('modeDestination');
+      var pendingUrl=null;
+      var previousFocus=null;
       // Use the official/recognizable game icon, try a backup image, then fall back to a symbol.
       Array.prototype.forEach.call(document.querySelectorAll('.featured-icon img'),function(image){
         image.addEventListener('error',function(){
@@ -113,7 +152,11 @@
       Array.prototype.forEach.call(document.querySelectorAll('[data-featured-url]'),function(link){
         var url=link.getAttribute('data-featured-url');
         featuredUrls[url]=true;
-        link.addEventListener('click',function(event){event.preventDefault();open(url,false)});
+        link.addEventListener('click',function(event){
+          event.preventDefault();
+          var title=link.querySelector('strong');
+          showChooser(url,title?title.textContent:nameFromUrl(url));
+        });
       });
 
       function notice(text){msg.textContent=text;msg.className='message show'}
@@ -128,6 +171,37 @@
       function open(url,direct){
         window.location.assign(direct?url:'https://www.youtube.com/redirect?q='+encodeURIComponent(url));
       }
+      function showChooser(rawUrl,name){
+        var url=valid(rawUrl);
+        pendingUrl=url;
+        previousFocus=document.activeElement;
+        chooserTitle.textContent='Open '+(name||nameFromUrl(url));
+        chooserDestination.textContent=url;
+        chooser.hidden=false;
+        document.body.classList.add('mode-open');
+        chooserNormal.focus();
+      }
+      function closeChooser(){
+        chooser.hidden=true;
+        document.body.classList.remove('mode-open');
+        pendingUrl=null;
+        if(previousFocus&&document.contains(previousFocus))previousFocus.focus();
+        previousFocus=null;
+      }
+      chooserNormal.addEventListener('click',function(){if(pendingUrl)open(pendingUrl,true)});
+      document.getElementById('modeTheater').addEventListener('click',function(){if(pendingUrl)open(pendingUrl,false)});
+      document.getElementById('modeClose').addEventListener('click',closeChooser);
+      chooser.addEventListener('click',function(event){if(event.target===chooser)closeChooser()});
+      document.addEventListener('keydown',function(event){
+        if(chooser.hidden)return;
+        if(event.key==='Escape')closeChooser();
+        if(event.key==='Tab'){
+          var close=document.getElementById('modeClose');
+          var theater=document.getElementById('modeTheater');
+          if(event.shiftKey&&document.activeElement===close){event.preventDefault();theater.focus()}
+          else if(!event.shiftKey&&document.activeElement===theater){event.preventDefault();close.focus()}
+        }
+      });
       function sanitizeArray(data){
         if(!Array.isArray(data))return [];
         var list=[],used={};
@@ -174,7 +248,7 @@
           var name=document.createElement('strong');name.textContent=site.name;
           var host=document.createElement('small');host.textContent=new URL(site.url).hostname;
           launch.appendChild(ic);launch.appendChild(name);launch.appendChild(host);
-          launch.addEventListener('click',function(){open(site.url,false)});
+          launch.addEventListener('click',function(){showChooser(site.url,site.name)});
           var remove=document.createElement('button');remove.type='button';remove.className='remove-site';remove.textContent='×';
           remove.title='Remove '+site.name;remove.setAttribute('aria-label','Remove '+site.name);
           remove.addEventListener('click',function(){
@@ -211,7 +285,7 @@
       });
       document.getElementById('addressForm').addEventListener('submit',function(event){
         event.preventDefault();
-        try{open(valid(input.value),false)}catch(e){notice(e.message)}
+        try{var url=valid(input.value);showChooser(url,nameFromUrl(url))}catch(e){notice(e.message)}
       });
       document.getElementById('direct').addEventListener('click',function(){
         try{open(valid(input.value),true)}catch(e){notice(e.message)}
@@ -242,7 +316,7 @@
         if(write(current)){render();if(added)bulk.value='';notice('Added '+added+' Site'+(added===1?'':'s')+'.'+(skipped?' Skipped '+skipped+' invalid, duplicate, or extra link'+(skipped===1?'':'s')+'.':''))}
       });
       if(new URLSearchParams(location.search).get('theater')==='1')
-        document.querySelector('.hero .subtitle').textContent='Your fullscreen session may be active. Choose one of your Sites below or paste any URL.';
+        document.querySelector('.hero .subtitle').textContent='Your Theater session may be active. Choose a Site below, then pick normal browser or Theater fullscreen.';
       render();
     })();
   </script>
