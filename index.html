@@ -27,6 +27,12 @@
     section.links{margin-top:31px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}h2{font-size:21px;margin:0;letter-spacing:-.02em}.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
     .tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:11px;min-height:132px;width:100%;border-radius:15px;border:1px solid #354052;color:var(--text);background:#1a202c;padding:20px;transition:background .15s,border-color .15s}.tile:hover{background:#252e3e;border-color:#66768b}.tile .ic{display:grid;place-items:center;background:#313a49;border-radius:12px;width:39px;height:39px;font-size:22px}.tile strong{font-size:16px}.tile small{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
     .custom{margin-top:27px}.saved{display:flex;flex-wrap:wrap;gap:10px}.saveditem{display:flex;max-width:100%;background:#1b2532;border:1px solid #414c5d;border-radius:11px;overflow:hidden}.saveditem button{background:transparent;border:0;color:white;padding:13px 14px}.saveditem .remove{border-left:1px solid #414c5d;color:#ffadb9;font-size:21px;font-weight:800;padding:8px 12px}
+
+    .tiles:empty:after{content:'No Sites added yet. Paste your published Sites links using the panel below.';display:block;grid-column:1/-1;border:1px dashed #556074;border-radius:15px;padding:26px;color:#c2ccda;text-align:center;line-height:1.6;background:#161d29}
+    .sitecard{position:relative;min-width:0}.sitecard .tile{height:100%;padding-right:40px}.sitecard .remove-site{position:absolute;top:10px;right:10px;background:#2d3442;color:#ffd0d7;border:1px solid #515b6a;width:32px;height:32px;border-radius:9px;font-size:19px;line-height:1}.sitecard .remove-site:hover{background:#5a2d3b}
+    .site-import{margin-top:20px;border:1px solid #485264;border-radius:15px;background:#161d29;padding:18px 20px}.site-import summary{font-size:16px;font-weight:800;cursor:pointer;user-select:none}.site-import p{margin:14px 0}.site-import label{display:block;margin:10px 0 7px}
+    .site-import textarea{display:block;min-height:126px;width:100%;resize:vertical;background:#0c121b;color:#f5f7fc;border:1px solid #546074;border-radius:11px;padding:13px;font:15px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+    .site-import textarea:focus-visible{outline:3px solid #ffd3d8;outline-offset:3px}.import-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:13px}
     .info{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:23px}.info article{background:#161c27;border-radius:15px;border:1px solid #353e4c;padding:21px}.info h3{margin:0 0 10px;font-size:17px}.info p{color:var(--muted);margin:0;line-height:1.65;font-size:14px}
     footer{color:#8c98aa;font-size:12px;text-align:center;line-height:1.7;margin:26px auto;max-width:780px}
     @media(max-width:680px){.wrap{width:calc(100% - 28px)}header{margin-bottom:30px}.tag{display:none}.panel{border-radius:18px}form{flex-direction:column}.launch{height:60px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.info{grid-template-columns:1fr}}
@@ -36,7 +42,7 @@
 <body>
   <div class="wrap">
     <header><div class="brand"><span class="mark" aria-hidden="true">⛶</span> TESLA FULLSCREEN</div><span class="tag">THEATER-STYLE WEB LAUNCHER</span></header>
-    <div class="hero"><div class="eyebrow">Made for your Tesla touchscreen</div><h1>Your browser. <span>Full screen.</span></h1><p class="subtitle">Launch the websites you love in a larger, Theater-style view. One shortcut for video, browser games and more.</p></div>
+    <div class="hero"><div class="eyebrow">Made for your Tesla touchscreen</div><h1>Your browser. <span>Full screen.</span></h1><p class="subtitle">Open your published Sites, browser games, and other websites from one touch-friendly launcher.</p></div>
     <main class="panel">
       <div class="label"><span class="step">01</span> Enter fullscreen mode</div>
       <button class="primary" id="fullscreen" type="button">⛶ &nbsp; Enter Tesla Fullscreen</button>
@@ -44,44 +50,160 @@
       <div class="sep"></div>
       <div class="label"><span class="step">02</span> Open any website</div>
       <form id="addressForm"><input id="address" class="address" type="text" required inputmode="url" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://your-website.com" aria-label="Website URL"><button class="launch" type="submit">Open Fullscreen ↗</button></form>
-      <div class="extras"><span class="small">No proxy. Websites open directly on your Tesla.</span><button type="button" id="save" class="secondary">＋ Save Shortcut</button></div>
+      <div class="extras"><span class="small">No proxy or automatic Sites account access. Links open directly on your Tesla.</span><button type="button" id="save" class="secondary">＋ Add Site</button></div>
       <div id="message" class="message" role="alert"></div>
     </main>
-    <section class="links"><div class="sectionhead"><h2>Quick launch</h2><span class="small">One-tap website shortcuts</span></div><div class="tiles">
-      <button class="tile" data-url="https://www.youtube.com" type="button"><span class="ic">▶</span><strong>YouTube</strong><small>youtube.com</small></button>
-      <button class="tile" data-url="https://www.netflix.com" type="button"><span class="ic">🎬</span><strong>Netflix</strong><small>netflix.com</small></button>
-      <button class="tile" data-url="https://www.disneyplus.com" type="button"><span class="ic">✦</span><strong>Disney+</strong><small>disneyplus.com</small></button>
-      <button class="tile" data-url="https://app.plex.tv" type="button"><span class="ic">▣</span><strong>Plex</strong><small>app.plex.tv</small></button>
-    </div></section>
-    <section class="custom"><div class="sectionhead"><h2>Your shortcuts</h2><span class="small">Stored on this device only</span></div><div id="saved" class="saved"><span class="small">No shortcuts yet. Add your favorite website above.</span></div></section>
+
+    <section class="links" aria-label="Your published websites">
+      <div class="sectionhead"><h2>My Sites</h2><span id="siteCount" class="small">Saved locally on this device</span></div>
+      <div class="tiles" id="siteTiles"></div>
+      <details class="site-import">
+        <summary>＋ Add multiple Sites at once</summary>
+        <p class="small">Paste your published website links, one per line. You can also enter <strong>Site Name | https://example.com</strong>. The launcher can't automatically read your ChatGPT Sites dashboard.</p>
+        <label class="small" for="bulkSites">Published website links</label>
+        <textarea id="bulkSites" rows="5" spellcheck="false" placeholder="My Browser Game | https://example.com/game&#10;https://example.com/another-site"></textarea>
+        <div class="import-actions">
+          <button type="button" class="secondary" id="importSites">Add Sites to Quick Launch</button>
+          <span class="small">Your links stay in this Tesla browser's storage.</span>
+        </div>
+      </details>
+    </section>
     <div class="info"><article><h3>How to use this in your Tesla</h3><p>Park the car. Open this site in Tesla's browser, bookmark it, and tap <b>Enter Tesla Fullscreen</b>. Tap <b>Go to site</b> on YouTube's redirect page, if shown. Then select a destination.</p></article><article><h3>Fullscreen unavailable?</h3><p>Some Tesla firmware versions block the workaround. In that case, this launcher still works as a normal browser homepage.</p><p style="margin-top:12px"><button type="button" class="secondary" id="direct">Open website directly ↗</button></p></article></div>
     <footer>Independent third-party launcher. Not affiliated with Tesla or YouTube. Entertainment and video on the front display are for parked use. No server-side tracking; custom shortcuts are saved locally in this browser.</footer>
   </div>
   <script>
     (function(){
       'use strict';
-      var key='tesla-fullscreen-shortcuts-v1',input=document.getElementById('address'),msg=document.getElementById('message'),saved=document.getElementById('saved');
-      function notice(s){msg.textContent=s;msg.className='message show'}
+      var key='tesla-fullscreen-sites-v2';
+      var previousKey='tesla-fullscreen-shortcuts-v1';
+      var maxSites=100;
+      var input=document.getElementById('address');
+      var msg=document.getElementById('message');
+      var tiles=document.getElementById('siteTiles');
+      var count=document.getElementById('siteCount');
+      var bulk=document.getElementById('bulkSites');
+
+      function notice(text){msg.textContent=text;msg.className='message show'}
       function valid(raw){
-        var s=String(raw||'').trim();if(!s)throw new Error('Enter a website address first.');
-        if(!/^[a-z][a-z\d+.-]*:/i.test(s))s='https://'+s;
-        var u;try{u=new URL(s)}catch(e){throw new Error('Enter a valid URL, such as https://example.com')}
+        var str=String(raw||'').trim();
+        if(!str)throw new Error('Enter a website address first.');
+        if(!/^[a-z][a-z\d+.-]*:/i.test(str))str='https://'+str;
+        var u;try{u=new URL(str)}catch(e){throw new Error('Enter a valid URL, such as https://example.com');}
         if(!/^https?:$/.test(u.protocol)||!u.hostname||u.username||u.password)throw new Error('Only ordinary HTTP/HTTPS website URLs are supported.');
         return u.href;
       }
-      function open(url,direct){window.location.assign(direct?url:'https://www.youtube.com/redirect?q='+encodeURIComponent(url))}
-      function read(){try{var a=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(a)?a.filter(function(x){return x&&typeof x.name==='string'&&typeof x.url==='string'}).slice(0,20):[]}catch(e){return []}}
-      function write(a){try{localStorage.setItem(key,JSON.stringify(a));return true}catch(e){notice('This browser did not allow shortcut storage.');return false}}
-      function render(){
-        var a=read();saved.textContent='';if(!a.length){var empty=document.createElement('span');empty.className='small';empty.textContent='No shortcuts yet. Add your favorite website above.';saved.appendChild(empty);return}
-        a.forEach(function(s,i){var item=document.createElement('div'),go=document.createElement('button'),remove=document.createElement('button');item.className='saveditem';go.type='button';go.title=s.url;go.textContent=s.name+' ↗';go.addEventListener('click',function(){try{open(valid(s.url),false)}catch(e){notice(e.message)}});remove.type='button';remove.className='remove';remove.textContent='×';remove.setAttribute('aria-label','Delete '+s.name);remove.addEventListener('click',function(){var items=read();items.splice(i,1);if(write(items))render()});item.appendChild(go);item.appendChild(remove);saved.appendChild(item)})
+      function open(url,direct){
+        window.location.assign(direct?url:'https://www.youtube.com/redirect?q='+encodeURIComponent(url));
       }
-      document.getElementById('fullscreen').addEventListener('click',function(){open(location.origin+location.pathname+'?theater=1',false)});
-      document.getElementById('addressForm').addEventListener('submit',function(e){e.preventDefault();try{open(valid(input.value),false)}catch(err){notice(err.message)}});
-      document.getElementById('direct').addEventListener('click',function(){try{open(valid(input.value),true)}catch(err){notice(err.message)}});
-      document.getElementById('save').addEventListener('click',function(){var url;try{url=valid(input.value)}catch(err){notice(err.message);return}var name=prompt('Shortcut name:',new URL(url).hostname.replace(/^www\./,''));if(name===null)return;name=name.trim().slice(0,42);if(!name){notice('Enter a shortcut name.');return}var a=read();if(a.length>=20){notice('Maximum 20 shortcuts. Remove one before adding another.');return}a.push({name:name,url:url});if(write(a)){render();msg.className='message'}});
-      Array.prototype.forEach.call(document.querySelectorAll('[data-url]'),function(b){b.addEventListener('click',function(){open(b.getAttribute('data-url'),false)})});
-      if(new URLSearchParams(location.search).get('theater')==='1')document.querySelector('.hero .subtitle').textContent='Your fullscreen session may now be active. Choose a site below or paste any URL.';
+      function sanitizeArray(data){
+        if(!Array.isArray(data))return [];
+        var list=[],used={};
+        data.forEach(function(x){
+          if(!x||typeof x.name!=='string'||typeof x.url!=='string')return;
+          var url;try{url=valid(x.url)}catch(e){return}
+          if(used[url]||list.length>=maxSites)return;
+          used[url]=true;
+          list.push({name:x.name.trim().slice(0,60)||nameFromUrl(url),url:url});
+        });
+        return list;
+      }
+      function read(){
+        try{
+          var current=localStorage.getItem(key);
+          if(current!==null)return sanitizeArray(JSON.parse(current));
+          var old=localStorage.getItem(previousKey);
+          var migrated=old?sanitizeArray(JSON.parse(old)):[];
+          if(migrated.length)localStorage.setItem(key,JSON.stringify(migrated));
+          return migrated;
+        }catch(e){return []}
+      }
+      function write(list){
+        try{localStorage.setItem(key,JSON.stringify(sanitizeArray(list)));return true}
+        catch(e){notice('This browser did not allow shortcut storage.');return false}
+      }
+      function nameFromUrl(url){
+        var u=new URL(url);
+        var pieces=u.pathname.split('/').filter(Boolean);
+        var last=pieces.length?pieces[pieces.length-1]:'';
+        var label='';
+        try{label=decodeURIComponent(last)}catch(e){label=last}
+        if(!label||label.length>48||/^[a-f\d-]{16,}$/i.test(label))label=u.hostname.replace(/^www\./,'');
+        return label.replace(/[-_]/g,' ').replace(/\s+/g,' ').trim().slice(0,60);
+      }
+      function render(){
+        var list=read();tiles.textContent='';
+        count.textContent=list.length+' saved Site'+(list.length===1?'':'s')+' · on this device';
+        list.forEach(function(site,index){
+          var card=document.createElement('div');card.className='sitecard';
+          var launch=document.createElement('button');launch.className='tile';launch.type='button';
+          launch.title='Open '+site.url;
+          var ic=document.createElement('span');ic.className='ic';ic.textContent='🌐';
+          var name=document.createElement('strong');name.textContent=site.name;
+          var host=document.createElement('small');host.textContent=new URL(site.url).hostname;
+          launch.appendChild(ic);launch.appendChild(name);launch.appendChild(host);
+          launch.addEventListener('click',function(){open(site.url,false)});
+          var remove=document.createElement('button');remove.type='button';remove.className='remove-site';remove.textContent='×';
+          remove.title='Remove '+site.name;remove.setAttribute('aria-label','Remove '+site.name);
+          remove.addEventListener('click',function(){
+            var current=read();current.splice(index,1);
+            if(write(current))render();
+          });
+          card.appendChild(launch);card.appendChild(remove);tiles.appendChild(card);
+        });
+      }
+      function addSite(name,url){
+        var list=read();if(list.length>=maxSites)throw new Error('Maximum '+maxSites+' Sites reached.');
+        url=valid(url);
+        if(list.some(function(x){return x.url===url}))throw new Error('That website is already in My Sites.');
+        list.push({name:name.trim().slice(0,60)||nameFromUrl(url),url:url});
+        if(write(list))render();
+      }
+      function parseLine(line){
+        line=line.trim();
+        if(!line)return null;
+        // Supports URL, "Name | URL", and markdown links pasted from a list.
+        var markdown=line.match(/^\s*(?:[-*]\s*)?\[([^\]]+)\]\((https?:\/\/[^)]+)\)\s*$/i);
+        if(markdown)return {name:markdown[1].trim(),url:valid(markdown[2])};
+        var divider=line.match(/^(.+?)\s*\|\s*(https?:\/\/\S+)$/i);
+        if(divider)return {name:divider[1].trim(),url:valid(divider[2])};
+        var url=valid(line);return {name:nameFromUrl(url),url:url};
+      }
+      document.getElementById('fullscreen').addEventListener('click',function(){
+        open(location.origin+location.pathname+'?theater=1',false);
+      });
+      document.getElementById('addressForm').addEventListener('submit',function(event){
+        event.preventDefault();
+        try{open(valid(input.value),false)}catch(e){notice(e.message)}
+      });
+      document.getElementById('direct').addEventListener('click',function(){
+        try{open(valid(input.value),true)}catch(e){notice(e.message)}
+      });
+      document.getElementById('save').addEventListener('click',function(){
+        var url;try{url=valid(input.value)}catch(e){notice(e.message);return}
+        var suggestion=nameFromUrl(url);
+        var name=window.prompt('Name this Site:',suggestion);
+        if(name===null)return;
+        name=name.trim();
+        if(!name){notice('Enter a Site name.');return}
+        try{addSite(name,url);msg.className='message'}catch(e){notice(e.message)}
+      });
+      document.getElementById('importSites').addEventListener('click',function(){
+        var rows=bulk.value.split(/\r?\n/).filter(function(x){return x.trim()});
+        if(!rows.length){notice('Paste one or more published website links first.');return}
+        var current=read(),known={};current.forEach(function(site){known[site.url]=true});
+        var added=0,skipped=0;
+        rows.slice(0,500).forEach(function(row){
+          try{
+            var item=parseLine(row);
+            if(!item||known[item.url]||current.length>=maxSites){skipped++;return}
+            current.push(item);known[item.url]=true;added++;
+          }catch(e){skipped++}
+        });
+        if(rows.length>500)skipped+=rows.length-500;
+        if(write(current)){render();if(added)bulk.value='';notice('Added '+added+' Site'+(added===1?'':'s')+'.'+(skipped?' Skipped '+skipped+' invalid, duplicate, or extra link'+(skipped===1?'':'s')+'.':''))}
+      });
+      if(new URLSearchParams(location.search).get('theater')==='1')
+        document.querySelector('.hero .subtitle').textContent='Your fullscreen session may be active. Choose one of your Sites below or paste any URL.';
       render();
     })();
   </script>
