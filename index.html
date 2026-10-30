@@ -28,6 +28,7 @@
     .tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:11px;min-height:132px;width:100%;border-radius:15px;border:1px solid #354052;color:var(--text);background:#1a202c;padding:20px;transition:background .15s,border-color .15s}.tile:hover{background:#252e3e;border-color:#66768b}.tile .ic{display:grid;place-items:center;background:#313a49;border-radius:12px;width:39px;height:39px;font-size:22px}.tile strong{font-size:16px}.tile small{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
     .custom{margin-top:27px}.saved{display:flex;flex-wrap:wrap;gap:10px}.saveditem{display:flex;max-width:100%;background:#1b2532;border:1px solid #414c5d;border-radius:11px;overflow:hidden}.saveditem button{background:transparent;border:0;color:white;padding:13px 14px}.saveditem .remove{border-left:1px solid #414c5d;color:#ffadb9;font-size:21px;font-weight:800;padding:8px 12px}
 
+    .site-head-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:12px}.site-head-actions .secondary{padding:9px 13px}.sectionhead{flex-wrap:wrap}
     .tiles:empty:after{content:'No Sites added yet. Paste your published Sites links using the panel below.';display:block;grid-column:1/-1;border:1px dashed #556074;border-radius:15px;padding:26px;color:#c2ccda;text-align:center;line-height:1.6;background:#161d29}
     .sitecard{position:relative;min-width:0}.sitecard .tile{height:100%;padding-right:40px}.sitecard .remove-site{position:absolute;top:10px;right:10px;background:#2d3442;color:#ffd0d7;border:1px solid #515b6a;width:32px;height:32px;border-radius:9px;font-size:19px;line-height:1}.sitecard .remove-site:hover{background:#5a2d3b}
     .site-import{margin-top:20px;border:1px solid #485264;border-radius:15px;background:#161d29;padding:18px 20px}.site-import summary{font-size:16px;font-weight:800;cursor:pointer;user-select:none}.site-import p{margin:14px 0}.site-import label{display:block;margin:10px 0 7px}
@@ -55,7 +56,7 @@
     </main>
 
     <section class="links" aria-label="Your published websites">
-      <div class="sectionhead"><h2>My Sites</h2><span id="siteCount" class="small">Saved locally on this device</span></div>
+      <div class="sectionhead"><h2>My Sites <span class="small">v2</span></h2><div class="site-head-actions"><span id="siteCount" class="small">Saved locally on this device</span><button id="refreshLatest" class="secondary" type="button">↻ Refresh latest</button></div></div>
       <div class="tiles" id="siteTiles"></div>
       <details class="site-import">
         <summary>＋ Add multiple Sites at once</summary>
@@ -168,6 +169,11 @@
         if(divider)return {name:divider[1].trim(),url:valid(divider[2])};
         var url=valid(line);return {name:nameFromUrl(url),url:url};
       }
+      document.getElementById('refreshLatest').addEventListener('click',function(){
+        var target=new URL(location.href);
+        target.searchParams.set('v',String(Date.now()));
+        window.location.replace(target.href);
+      });
       document.getElementById('fullscreen').addEventListener('click',function(){
         open(location.origin+location.pathname+'?theater=1',false);
       });
