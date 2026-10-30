@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1017">
+  <meta name="description" content="Touch-friendly Tesla browser fullscreen website launcher.">
+  <title>Tesla Fullscreen Launcher</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0e1118;--panel:#181e2a;--line:#384252;--text:#f4f6fb;--muted:#a8b2c1;--accent:#ec4256}
+    *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;min-height:100vh;color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse 80% 60% at 50% -18%,#642635 0,#191822 55%,var(--bg) 100%)}
+    button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible,input:focus-visible{outline:3px solid #ffd3d8;outline-offset:3px}a{color:#ffb4be}
+    .wrap{width:min(1100px,calc(100% - 48px));margin:0 auto;padding:27px 0 45px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:50px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16px;letter-spacing:.055em}.mark{display:grid;place-items:center;height:43px;width:43px;border-radius:12px;background:linear-gradient(140deg,#ff6478,#c41e37);font-size:27px;box-shadow:0 8px 26px #e5335030}
+    .tag{color:#ffb0bb;background:#301d29;border:1px solid #573443;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.1em;padding:10px 15px}
+    .hero{text-align:center;margin-bottom:29px}.eyebrow{color:#ff95a2;letter-spacing:.2em;font-size:12px;font-weight:800;text-transform:uppercase}
+    h1{font-size:clamp(37px,6vw,68px);letter-spacing:-.055em;line-height:1.07;margin:14px 0 17px}h1 span{color:#ff6074}.subtitle{color:var(--muted);max-width:665px;margin:auto;font-size:clamp(15px,1.8vw,19px);line-height:1.65}
+    .panel{border:1px solid #474454;background:linear-gradient(145deg,#222432,#151a25);padding:clamp(20px,4vw,39px);border-radius:24px;box-shadow:0 25px 70px #0005}
+    .label{display:flex;gap:10px;align-items:center;font-weight:800;font-size:19px;margin-bottom:18px}.step{color:#ffd3d9;background:#512b3a;border-radius:9px;padding:7px 11px;font-size:13px}
+    .primary{background:linear-gradient(110deg,#fa5265,#cc203a);color:white;font-weight:850;border:0;border-radius:14px;min-height:75px;padding:17px 22px;width:100%;font-size:clamp(18px,2.4vw,25px);box-shadow:0 12px 26px #d51c403b}.primary:hover,.launch:hover{filter:brightness(1.09)}
+    .hint{font-size:14px;color:var(--muted);line-height:1.65;margin:15px 0 0}.hint strong{color:#f2f5fc}.sep{height:1px;background:var(--line);margin:30px 0}
+    form{display:flex;gap:12px}.address{height:64px;flex:1;min-width:0;border:1px solid #525b6a;background:#0d121b;color:white;padding:0 16px;border-radius:12px;font-size:clamp(15px,2vw,19px)}.address::placeholder{color:#798698}
+    .launch{border:1px solid #ff6275;border-radius:12px;background:#ec4256;color:white;font-size:17px;font-weight:800;padding:0 24px;min-width:185px}.extras{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:13px;flex-wrap:wrap}
+    .secondary{color:#eef1f6;border:1px solid #495569;background:#2b3445;padding:12px 15px;border-radius:11px;font-size:14px;font-weight:750}.secondary:hover{background:#394659}.small{color:var(--muted);font-size:13px;line-height:1.5}
+    .message{display:none;margin-top:16px;padding:13px 15px;background:#3b222d;border:1px solid #9a4055;border-radius:10px;color:#ffe3e7;font-size:14px}.message.show{display:block}
+    section.links{margin-top:31px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}h2{font-size:21px;margin:0;letter-spacing:-.02em}.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+    .tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:11px;min-height:132px;width:100%;border-radius:15px;border:1px solid #354052;color:var(--text);background:#1a202c;padding:20px;transition:background .15s,border-color .15s}.tile:hover{background:#252e3e;border-color:#66768b}.tile .ic{display:grid;place-items:center;background:#313a49;border-radius:12px;width:39px;height:39px;font-size:22px}.tile strong{font-size:16px}.tile small{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+    .custom{margin-top:27px}.saved{display:flex;flex-wrap:wrap;gap:10px}.saveditem{display:flex;max-width:100%;background:#1b2532;border:1px solid #414c5d;border-radius:11px;overflow:hidden}.saveditem button{background:transparent;border:0;color:white;padding:13px 14px}.saveditem .remove{border-left:1px solid #414c5d;color:#ffadb9;font-size:21px;font-weight:800;padding:8px 12px}
+    .info{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:23px}.info article{background:#161c27;border-radius:15px;border:1px solid #353e4c;padding:21px}.info h3{margin:0 0 10px;font-size:17px}.info p{color:var(--muted);margin:0;line-height:1.65;font-size:14px}
+    footer{color:#8c98aa;font-size:12px;text-align:center;line-height:1.7;margin:26px auto;max-width:780px}
+    @media(max-width:680px){.wrap{width:calc(100% - 28px)}header{margin-bottom:30px}.tag{display:none}.panel{border-radius:18px}form{flex-direction:column}.launch{height:60px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.info{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header><div class="brand"><span class="mark" aria-hidden="true">⛶</span> TESLA FULLSCREEN</div><span class="tag">THEATER-STYLE WEB LAUNCHER</span></header>
+    <div class="hero"><div class="eyebrow">Made for your Tesla touchscreen</div><h1>Your browser. <span>Full screen.</span></h1><p class="subtitle">Launch the websites you love in a larger, Theater-style view. One shortcut for video, browser games and more.</p></div>
+    <main class="panel">
+      <div class="label"><span class="step">01</span> Enter fullscreen mode</div>
+      <button class="primary" id="fullscreen" type="button">⛶ &nbsp; Enter Tesla Fullscreen</button>
+      <p class="hint">This uses YouTube's redirect workaround. If you see <strong>“You are leaving YouTube,”</strong> tap <strong>“Go to site.”</strong> Tesla software may block the trick on some versions.</p>
+      <div class="sep"></div>
+      <div class="label"><span class="step">02</span> Open any website</div>
+      <form id="addressForm"><input id="address" class="address" type="text" required inputmode="url" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://your-website.com" aria-label="Website URL"><button class="launch" type="submit">Open Fullscreen ↗</button></form>
+      <div class="extras"><span class="small">No proxy. Websites open directly on your Tesla.</span><button type="button" id="save" class="secondary">＋ Save Shortcut</button></div>
+      <div id="message" class="message" role="alert"></div>
+    </main>
+    <section class="links"><div class="sectionhead"><h2>Quick launch</h2><span class="small">One-tap website shortcuts</span></div><div class="tiles">
+      <button class="tile" data-url="https://www.youtube.com" type="button"><span class="ic">▶</span><strong>YouTube</strong><small>youtube.com</small></button>
+      <button class="tile" data-url="https://www.netflix.com" type="button"><span class="ic">🎬</span><strong>Netflix</strong><small>netflix.com</small></button>
+      <button class="tile" data-url="https://www.disneyplus.com" type="button"><span class="ic">✦</span><strong>Disney+</strong><small>disneyplus.com</small></button>
+      <button class="tile" data-url="https://app.plex.tv" type="button"><span class="ic">▣</span><strong>Plex</strong><small>app.plex.tv</small></button>
+    </div></section>
+    <section class="custom"><div class="sectionhead"><h2>Your shortcuts</h2><span class="small">Stored on this device only</span></div><div id="saved" class="saved"><span class="small">No shortcuts yet. Add your favorite website above.</span></div></section>
+    <div class="info"><article><h3>How to use this in your Tesla</h3><p>Park the car. Open this site in Tesla's browser, bookmark it, and tap <b>Enter Tesla Fullscreen</b>. Tap <b>Go to site</b> on YouTube's redirect page, if shown. Then select a destination.</p></article><article><h3>Fullscreen unavailable?</h3><p>Some Tesla firmware versions block the workaround. In that case, this launcher still works as a normal browser homepage.</p><p style="margin-top:12px"><button type="button" class="secondary" id="direct">Open website directly ↗</button></p></article></div>
+    <footer>Independent third-party launcher. Not affiliated with Tesla or YouTube. Entertainment and video on the front display are for parked use. No server-side tracking; custom shortcuts are saved locally in this browser.</footer>
+  </div>
+  <script>
+    (function(){
+      'use strict';
+      var key='tesla-fullscreen-shortcuts-v1',input=document.getElementById('address'),msg=document.getElementById('message'),saved=document.getElementById('saved');
+      function notice(s){msg.textContent=s;msg.className='message show'}
+      function valid(raw){
+        var s=String(raw||'').trim();if(!s)throw new Error('Enter a website address first.');
+        if(!/^[a-z][a-z\d+.-]*:/i.test(s))s='https://'+s;
+        var u;try{u=new URL(s)}catch(e){throw new Error('Enter a valid URL, such as https://example.com')}
+        if(!/^https?:$/.test(u.protocol)||!u.hostname||u.username||u.password)throw new Error('Only ordinary HTTP/HTTPS website URLs are supported.');
+        return u.href;
+      }
+      function open(url,direct){window.location.assign(direct?url:'https://www.youtube.com/redirect?q='+encodeURIComponent(url))}
+      function read(){try{var a=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(a)?a.filter(function(x){return x&&typeof x.name==='string'&&typeof x.url==='string'}).slice(0,20):[]}catch(e){return []}}
+      function write(a){try{localStorage.setItem(key,JSON.stringify(a));return true}catch(e){notice('This browser did not allow shortcut storage.');return false}}
+      function render(){
+        var a=read();saved.textContent='';if(!a.length){var empty=document.createElement('span');empty.className='small';empty.textContent='No shortcuts yet. Add your favorite website above.';saved.appendChild(empty);return}
+        a.forEach(function(s,i){var item=document.createElement('div'),go=document.createElement('button'),remove=document.createElement('button');item.className='saveditem';go.type='button';go.title=s.url;go.textContent=s.name+' ↗';go.addEventListener('click',function(){try{open(valid(s.url),false)}catch(e){notice(e.message)}});remove.type='button';remove.className='remove';remove.textContent='×';remove.setAttribute('aria-label','Delete '+s.name);remove.addEventListener('click',function(){var items=read();items.splice(i,1);if(write(items))render()});item.appendChild(go);item.appendChild(remove);saved.appendChild(item)})
+      }
+      document.getElementById('fullscreen').addEventListener('click',function(){open(location.origin+location.pathname+'?theater=1',false)});
+      document.getElementById('addressForm').addEventListener('submit',function(e){e.preventDefault();try{open(valid(input.value),false)}catch(err){notice(err.message)}});
+      document.getElementById('direct').addEventListener('click',function(){try{open(valid(input.value),true)}catch(err){notice(err.message)}});
+      document.getElementById('save').addEventListener('click',function(){var url;try{url=valid(input.value)}catch(err){notice(err.message);return}var name=prompt('Shortcut name:',new URL(url).hostname.replace(/^www\./,''));if(name===null)return;name=name.trim().slice(0,42);if(!name){notice('Enter a shortcut name.');return}var a=read();if(a.length>=20){notice('Maximum 20 shortcuts. Remove one before adding another.');return}a.push({name:name,url:url});if(write(a)){render();msg.className='message'}});
+      Array.prototype.forEach.call(document.querySelectorAll('[data-url]'),function(b){b.addEventListener('click',function(){open(b.getAttribute('data-url'),false)})});
+      if(new URLSearchParams(location.search).get('theater')==='1')document.querySelector('.hero .subtitle').textContent='Your fullscreen session may now be active. Choose a site below or paste any URL.';
+      render();
+    })();
+  </script>
+</body>
+</html>
