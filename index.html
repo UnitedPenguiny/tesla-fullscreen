@@ -30,6 +30,9 @@
 
     .site-head-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:12px}.site-head-actions .secondary{padding:9px 13px}.sectionhead{flex-wrap:wrap}
     #siteTiles:empty:after{content:'No Sites added yet. Paste your published Sites links using the panel below.';display:block;grid-column:1/-1;border:1px dashed #556074;border-radius:15px;padding:26px;color:#c2ccda;text-align:center;line-height:1.6;background:#161d29}
+    .tile .ic.featured-icon{position:relative;width:64px;height:64px;overflow:hidden;background:#202737;border:1px solid #465264}
+    .tile .ic.featured-icon .icon-backup{position:absolute;inset:0;display:grid;place-items:center;font-size:28px}
+    .tile .ic.featured-icon img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;background:#202737}
     #extraSiteTiles:empty{display:none}.tile{text-decoration:none} .sitecard{position:relative;min-width:0}.sitecard .tile{height:100%;padding-right:40px}.sitecard .remove-site{position:absolute;top:10px;right:10px;background:#2d3442;color:#ffd0d7;border:1px solid #515b6a;width:32px;height:32px;border-radius:9px;font-size:19px;line-height:1}.sitecard .remove-site:hover{background:#5a2d3b}
     .site-import{margin-top:20px;border:1px solid #485264;border-radius:15px;background:#161d29;padding:18px 20px}.site-import summary{font-size:16px;font-weight:800;cursor:pointer;user-select:none}.site-import p{margin:14px 0}.site-import label{display:block;margin:10px 0 7px}
     .site-import textarea{display:block;min-height:126px;width:100%;resize:vertical;background:#0c121b;color:#f5f7fc;border:1px solid #546074;border-radius:11px;padding:13px;font:15px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
@@ -56,13 +59,13 @@
     </main>
 
     <section class="links" aria-label="Your published websites">
-      <div class="sectionhead"><h2>My Sites <span class="small">v3</span></h2><div class="site-head-actions"><span id="siteCount" class="small">Saved locally on this device</span><button id="refreshLatest" class="secondary" type="button">↻ Refresh latest</button></div></div>
+      <div class="sectionhead"><h2>My Sites <span class="small">v4</span></h2><div class="site-head-actions"><span id="siteCount" class="small">Saved locally on this device</span><button id="refreshLatest" class="secondary" type="button">↻ Refresh latest</button></div></div>
       <div class="tiles" id="siteTiles">
         <a class="tile" href="https://kingdom-rush-genesis-pocket.wittyfir16.chatgpt.site/" data-featured-url="https://kingdom-rush-genesis-pocket.wittyfir16.chatgpt.site/">
-          <span class="ic" aria-hidden="true">🛡️</span><strong>Kingdom Rush Genesis</strong><small>kingdom-rush-genesis-pocket</small>
+          <span class="ic featured-icon" aria-hidden="true"><span class="icon-backup">🛡️</span><img src="https://www.kingdomrushgenesis.com/img/presskit/Kingdom_Rush_6_Genesis_app_icon_1024.png?v=1" data-icon-fallback="https://files.ironhidegames.com/ironhidegames-www-upfiles/original/Games/0x600/e546ef0a-46e2-44a9-a23f-d2d8640e109e.png" alt="" loading="eager"></span><strong>Kingdom Rush Genesis</strong><small>kingdom-rush-genesis-pocket</small>
         </a>
         <a class="tile" href="https://brotato-browser-port.wittyfir16.chatgpt.site/brotato.html" data-featured-url="https://brotato-browser-port.wittyfir16.chatgpt.site/brotato.html">
-          <span class="ic" aria-hidden="true">🥔</span><strong>Brotato</strong><small>brotato-browser-port</small>
+          <span class="ic featured-icon" aria-hidden="true"><span class="icon-backup">🥔</span><img src="https://cdn2.steamgriddb.com/icon/9b9f95bf74798c23c71e69445d2c53d3/32/512x512.png" data-icon-fallback="https://fastly.mwm-storage.mwmcdn.com/raw_files/347201d7-c46b-42d7-a272-fba7346a2686" alt="" loading="eager"></span><strong>Brotato</strong><small>brotato-browser-port</small>
         </a>
       </div>
       <div class="tiles" id="extraSiteTiles" style="margin-top:13px"></div>
@@ -91,6 +94,21 @@
       var tiles=document.getElementById('extraSiteTiles');
       var count=document.getElementById('siteCount');
       var bulk=document.getElementById('bulkSites');
+      // Use the official/recognizable game icon, try a backup image, then fall back to a symbol.
+      Array.prototype.forEach.call(document.querySelectorAll('.featured-icon img'),function(image){
+        image.addEventListener('error',function(){
+          var fallback=image.getAttribute('data-icon-fallback');
+          if(fallback){
+            image.removeAttribute('data-icon-fallback');
+            image.src=fallback;
+          }else{
+            image.parentNode.removeChild(image);
+          }
+        });
+        if(image.complete && image.naturalWidth===0){
+          image.dispatchEvent(new Event('error'));
+        }
+      });
       var featuredUrls={};
       Array.prototype.forEach.call(document.querySelectorAll('[data-featured-url]'),function(link){
         var url=link.getAttribute('data-featured-url');
